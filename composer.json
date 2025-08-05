@@ -1,0 +1,7 @@
+{
+  "name": "freddy/tiendaonline",
+  "description": "Tienda online en PHP",
+  "require": {
+    "php": "^8.0"
+  }
+}
