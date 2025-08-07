@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/database.php'; // Ajusta la ruta si es necesario
+require_once './config/database.php'; // Ajusta la ruta si es necesario
 
 $stmt = $pdo->query("SELECT * FROM products ORDER BY created_at DESC");
 $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -113,7 +113,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($productos as $producto): ?>
             <div class="producto-card">
                 <h3><?= htmlspecialchars($producto['name']) ?></h3>
-                <img src="../public/images/<?= htmlspecialchars($producto['image']) ?>" alt="<?= htmlspecialchars($producto['name']) ?>">
+                <img src="public/images/<?= htmlspecialchars($producto['image']) ?>" alt="<?= htmlspecialchars($producto['name']) ?>">
                 <p><?= htmlspecialchars($producto['description']) ?></p>
                 <strong>Precio:</strong> $<?= $producto['price'] ?><br>
                 <small>Talla: <?= $producto['size'] ?> | Color: <?= $producto['color'] ?></small>
@@ -134,13 +134,13 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
-    <div class="cart-icon">
-        <a href="carrito.php">
+    <div style="position:fixed; top:30px; right:40px; z-index:1000;">
+        <a href="../views/carrito.php" style="text-decoration:none; color:#333; font-size:2em;">
             🛒
             <?php
             $cantidad = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
             if ($cantidad > 0) {
-                echo "<span>$cantidad</span>";
+                echo "<span style='background:#28a745; color:#fff; border-radius:50%; padding:4px 10px; font-size:0.7em; position:relative; top:-10px; left:-10px;'>$cantidad</span>";
             }
             ?>
         </a>
