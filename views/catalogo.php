@@ -8,6 +8,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Catálogo de Productos</title>
     <style>
@@ -21,11 +22,21 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background-size: 400% 400%;
             animation: gradientBG 12s ease infinite;
         }
+
         @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
+
         h1 {
             text-align: center;
             font-size: 2.8em;
@@ -34,6 +45,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 30px;
             letter-spacing: 2px;
         }
+
         .catalogo-container {
             display: flex;
             flex-wrap: wrap;
@@ -41,46 +53,54 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             gap: 30px;
             padding: 20px;
         }
+
         .producto-card {
-            background: rgba(255,255,255,0.97);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
             width: 260px;
             padding: 24px 18px;
             margin-bottom: 20px;
             text-align: center;
             transition: transform 0.2s, box-shadow 0.2s;
         }
+
         .producto-card:hover {
             transform: scale(1.04);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
         }
+
         .producto-card h3 {
             font-size: 1.5em;
             color: #007bff;
             margin-bottom: 10px;
         }
+
         .producto-card img {
             max-width: 100%;
             border-radius: 10px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
         }
+
         .producto-card p {
             font-size: 1.15em;
             color: #444;
             margin-bottom: 10px;
         }
+
         .producto-card strong {
             font-size: 1.2em;
             color: #333;
         }
+
         .producto-card small {
             display: block;
             margin-top: 8px;
             font-size: 1.05em;
             color: #666;
         }
+
         .cart-icon {
             position: fixed;
             top: 30px;
@@ -90,6 +110,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             color: #333;
             font-size: 2em;
         }
+
         .cart-icon span {
             background: #28a745;
             color: #fff;
@@ -102,6 +123,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
+
 <body>
     <h1>Catálogo de Productos</h1>
     <?php if (isset($_GET['added'])): ?>
@@ -145,5 +167,10 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
         </a>
     </div>
+    <div style="position:fixed; top:30px; left:40px; z-index:1000;">
+        <a href="../index.php?page=home" style="text-decoration:none; color:#333; font-size:2em;">⬅️</a>
+    </div>
+
 </body>
+
 </html>

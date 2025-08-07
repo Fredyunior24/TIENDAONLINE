@@ -7,9 +7,6 @@ switch ($page) {
     case 'register':
         require 'views/register.php';
         break;
-    default:
-        require 'views/home.php';
-        break;
     case 'catalogo':
         require 'views/catalogo.php';
         break;
@@ -19,5 +16,7 @@ switch ($page) {
     case 'product':
         require 'views/product.php';
         break;
-
+    default:
+        require 'views/home.php';
+        break;
 }

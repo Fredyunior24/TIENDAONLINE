@@ -1,6 +1,7 @@
 <?php
 require_once '../models/User.php';
 session_start();
+
 $action = $_GET['action'] ?? '';
 
 if ($action === 'register') {
@@ -17,16 +18,16 @@ if ($action === 'register') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Usuario y contraseña fijos
+    // 1) Usuario fijo (conservado)
     if ($email === 'freddy_alex24@hotmail.com' && $password === '1234') {
         $_SESSION['user_id'] = 1;
         $_SESSION['user_name'] = 'Fredyunior24';
         $_SESSION['user_email'] = $email;
         header("Location: ../index.php?page=home");
         exit();
-        
-    } 
-    
+    }
+
+    // 2) Usuario en BD
     $user = User::findByEmail($email);
 
     if ($user && isset($user['password']) && password_verify($password, $user['password'])) {
