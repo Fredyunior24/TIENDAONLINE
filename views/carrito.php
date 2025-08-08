@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once './config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 $cart = $_SESSION['cart'] ?? [];
 $productos = [];
@@ -30,7 +30,8 @@ if ($cart) {
         <?php if ($productos): ?>
             <?php foreach ($productos as $producto): ?>
                 <div class="producto-carrito">
-                    <img src="public/images/<?= htmlspecialchars($producto['image']) ?>" alt="<?= htmlspecialchars($producto['name']) ?>">
+                    <img src="../public/images/<?= htmlspecialchars($producto['image']) ?>" alt="<?= htmlspecialchars($producto['name']) ?>">
+
                     <div>
                         <strong><?= htmlspecialchars($producto['name']) ?></strong><br>
                         $<?= $producto['price'] ?>

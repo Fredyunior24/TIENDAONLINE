@@ -70,6 +70,5 @@
         <div style="position:fixed; top:30px; left:40px; z-index:1000;">
         <a href="../index.php?page=home" style="text-decoration:none; color:#333; font-size:2em;">⬅️</a>
     </div>
-    </div>
 </body>
 </html>

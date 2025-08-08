@@ -1,44 +1,46 @@
 <?php
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/database.php';
+;
+; // antes estaba ../config/database.php
 
 $action = $_GET['action'] ?? '';
 
-if ($action == 'guardar') 
-{
-    $name = $_POST['name'];
-    $desc = $_POST['description'];
-    $price = $_POST['price'];
-    $size = $_POST['size'];
-    $color = $_POST['color'];
-    $stock = $_POST['stock'];
-    $category = $_POST['category'];
+if ($action === 'guardar') {
+    $name     = $_POST['name'] ?? '';
+    $desc     = $_POST['description'] ?? '';
+    $price    = $_POST['price'] ?? 0;
+    $size     = $_POST['size'] ?? '';
+    $color    = $_POST['color'] ?? '';
+    $stock    = $_POST['stock'] ?? 0;
+    $category = $_POST['category'] ?? '';
 
-    // Guardar imagen en carpeta
-    $imageName = null;
-    if (!empty($_FILES['image']['name'])) 
-    {
-        $imageName = time() . '_' . basename($_FILES['image']['name']); // evitar duplicados
-        $targetPath = "../public/images/" . $imageName;
+    // Directorios (FS = disco, URL = navegador)
+    $uploadDirFs  = __DIR__ . '/../public/images/';
+    $uploadDirUrl = '/public/images/';
 
-        // Validar que sea imagen
-        $ext = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
-        if (in_array($ext, $allowed)) 
-        {
-            move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
-        } 
-        else 
-        {
-            die("Formato de imagen no permitido.");
+    if (!is_dir($uploadDirFs)) {
+        mkdir($uploadDirFs, 0777, true);
+    }
+
+    $imageDb = null;
+    if (!empty($_FILES['image']['name'])) {
+        $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        $base = preg_replace('/[^a-z0-9_\-\.]/i', '_', pathinfo($_FILES['image']['name'], PATHINFO_FILENAME));
+        $filename = time() . '_' . $base . '.' . $ext;
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDirFs . $filename)) {
+            // Opción A: guarda solo el nombre
+            $imageDb = $filename;
+
+            // (Si prefieres guardar la ruta completa web:)
+            // $imageDb = $uploadDirUrl . $filename;
         }
     }
 
+    // INSERT producto (ajusta nombres de columnas reales)
+    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, size, color, stock, category, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$name, $desc, $price, $size, $color, $stock, $category, $imageDb]);
 
-
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, size, color, stock, category, image) 
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$name, $desc, $price, $size, $color, $stock, $category, $imageName]);
-
-    header("Location: ../index.php?page=catalogo");
+    header("Location: ../index.php?page=catalogo&added=1");
     exit;
 }
